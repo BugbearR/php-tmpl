@@ -1,0 +1,39 @@
+services:
+  workspace:
+    build:
+      context: ./workspace/docker
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ..
+        target: /workspace
+    tty: true
+  php-fpm:
+    build:
+      context: ./php-fpm/docker
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ../public
+        target: /var/www/html
+      - type: bind
+        source: ./php-fpm/usr/local/etc
+        target: /usr/local/etc
+  nginx:
+    image: nginx:1.21
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - type: bind
+        source: ../public
+        target: /var/www/html
+      - type: bind
+        source: ./nginx/etc/nginx
+        target: /etc/nginx
+      - type: bind
+        source: ./nginx/var/log
+        target: /var/log
+    #   - type: bind
+    #     source: .devcontainer/nginx.conf
+    #     target: /etc/nginx/nginx.conf
