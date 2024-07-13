@@ -1,1 +1,2 @@
-.devcontainer/nginx/etc/nginx/var/log
+.devcontainer/nginx/var/log/nginx
+.devcontainer/nginx/etc/nginx/ssl
